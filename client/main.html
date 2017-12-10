@@ -1,0 +1,60 @@
+<head>
+  <title>Notemanager</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+  <nav>
+    <div class="nav-wrapper blue">
+      <a href="#" class="brand-logo center">Note Manager</a>
+    </div>
+  </nav>
+  <div class="container">
+    {{>hello}}
+    {{>add}}
+    <label>Notes list:</label>
+    <ul class="collection">
+       {{#each notes}} 
+       {{>note}} 
+        {{/each}}
+    </ul>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  </div>
+  <footer class="page-footer blue center place">
+    <div class="container">
+      <div class="row">
+        <div class="col l4 offset-l2 s12">
+          <i class="small material-icons col s3">public</i>
+          <i class="small material-icons col s3">assessment</i>
+          <i class="small material-icons col s3">person</i>
+          <i class="small material-icons col s3">settings</i>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+
+<template name="hello">
+  <!--We create a template, with html components and then we put it between the html body tags. To activate it, we put the template name in curly brackets, with a > sign before the template name -->
+  <h5 class="hello">Add notes and never forget a thing</h5>
+</template>
+
+<template name="add">
+  <form class="add-form">
+    <input type="text" name="note" placeholder="Add note..." id="input-content">
+    <br>
+    <button type="submit" value="Submit" class="waves-effect waves-light btn blue bah" id="btn">Add</button>
+    <br>
+  </form>
+</template>
+
+<template name="note">
+  <li class="collection-item">
+    {{text}}
+    <a href="#" class="delete-note secondary-content"><i class="small material-icons">close</i></a>
+  </li>
+</template>
