@@ -1,21 +1,29 @@
 import { Template } from 'meteor/templating';
-
 import { Notes } from '../lib/collections.js';
+import { Accounts } from 'meteor/accounts-base';
+import { Meteor } from 'meteor/meteor';
 //import { ReactiveVar } from 'meteor/reactive-var';
 
-import { Accounts } from 'meteor/accounts-base';
-
 import './main.html'; 
-//Template.hello.helpers({}); // helpers are where we define the functions
+
+Meteor.subscribe('notes');
+
+console.log("userId: ", Meteor.userId(this.userId));
 
 Accounts.ui.config({
   passwordSignupFields:'USERNAME_AND_EMAIL'
 });
 
 Template.body.helpers({
-  notes(){
-    return Notes.find({}, {sort:{createdAt: -1} });
+
+  notes: function(){
+    return Notes.find({username: Meteor.user().username});
+  }
+ /*
+  notes (){
+    return Notes.find();
   },
+ // {}, {sort:{createdAt: -1} }
   /*
   notes:[
     {text: "My first note"},
@@ -33,15 +41,9 @@ Template.add.events({
   const text =  $('#input-content').val();
     console.log(text);
     //insert data into Notes collection
-    Notes.insert({
-      text,
-      createdAt: new Date(),
-      owner: Meteor.userId(),
-      username: Meteor.user().username
-    });
+    Meteor.call('notes.insert', text);
     //clear form
     $('#input-content').val('');
-
     return false;
   }
 });
@@ -49,7 +51,8 @@ Template.add.events({
 Template.note.events({
   'click .delete-note': function(){
     console.log('clicked');
-    Notes.remove(this._id);
+   // Notes.remove(this._id);
+   Meteor.call('notes.remove', this);
     return false;
   }
 });
