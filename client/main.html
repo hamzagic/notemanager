@@ -9,17 +9,22 @@
   <nav>
     <div class="nav-wrapper blue">
       <a href="#" class="brand-logo center">Note Manager</a>
+      <li class="nav-item">{{> loginButtons}}</li>
     </div>
   </nav>
   <div class="container">
-    {{>hello}}
-    {{>add}}
+    {{#if currentUser}}
+      {{>hello}}
+      {{>add}}
     <label>Notes list:</label>
     <ul class="collection">
        {{#each notes}} 
-       {{>note}} 
-        {{/each}}
+       {{>note}}
+       {{/each}}
     </ul>
+     {{else}}
+    <p>Please log in to add notes.</p>
+    {{/if}}
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
@@ -52,9 +57,10 @@
   </form>
 </template>
 
+
 <template name="note">
   <li class="collection-item">
-    {{text}}
+    {{text}}: <strong>Added by {{username}}</strong>
     <a href="#" class="delete-note secondary-content"><i class="small material-icons">close</i></a>
   </li>
 </template>

@@ -3,9 +3,14 @@ import { Template } from 'meteor/templating';
 import { Notes } from '../lib/collections.js';
 //import { ReactiveVar } from 'meteor/reactive-var';
 
-import './main.html'; //we need to import the main html page, where everything will be placed
+import { Accounts } from 'meteor/accounts-base';
 
+import './main.html'; 
 //Template.hello.helpers({}); // helpers are where we define the functions
+
+Accounts.ui.config({
+  passwordSignupFields:'USERNAME_AND_EMAIL'
+});
 
 Template.body.helpers({
   notes(){
@@ -30,7 +35,9 @@ Template.add.events({
     //insert data into Notes collection
     Notes.insert({
       text,
-      createdAt: new Date()
+      createdAt: new Date(),
+      owner: Meteor.userId(),
+      username: Meteor.user().username
     });
     //clear form
     $('#input-content').val('');
